@@ -28,7 +28,7 @@ int main() {
     // compute RNP
     cout << "q = " << (R-D)/(U-D) << endl;
 
-    // compute stock price at node n=3, i=2
+    // compute stock price at node (n,i)
     int n, i;
     cout << "Enter n:  "; cin >> n;
     cout << "Enter i:  "; cin >> i;
