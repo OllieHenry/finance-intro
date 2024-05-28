@@ -2,9 +2,21 @@
 #include <cmath>
 using namespace std;
 
-int main() {
-    double S0, U, D, R;
+// compute RNP
+double RiskNeutProb(double U, double D, double R)
+{
+    return (R-D)/(U-D);
+}
 
+// compute stick price at node (n,i)
+double S(double S0, double U, double D, int n, int i)
+{
+    return S0 * pow(1+U, i) * pow(1+D, n-i);
+}
+
+// input, display and check model data
+int GetInputData(double& S0, double& U, double& D, double& R)
+{
     // entering data
     cout << "Enter S0: "; cin >> S0;
     cout << "Enter U:  "; cin >> U;
@@ -17,7 +29,7 @@ int main() {
         cout << "verify S0 > 0, -1 < D < U, and R > -1" << endl;
         return 1;
     }
-
+    
     // check for arbitrage
     if (U <= R || R <= D)
     {
@@ -25,14 +37,23 @@ int main() {
         return 1;
     }
 
-    // compute RNP
-    cout << "q = " << (R-D)/(U-D) << endl;
+    return 0;
 
-    // compute stock price at node (n,i)
+}
+
+int main() {
+    double S0, U, D, R;
+
+    if (GetInputData(S0, U, D, R) == 1) {
+        return 1;
+    }
+
+    cout << "q = " << RiskNeutProb(U, D, R) << endl;
+
     int n, i;
-    cout << "Enter n:  "; cin >> n;
-    cout << "Enter i:  "; cin >> i;
-    cout << "S(n,i) = " << S0 * pow(1+U, i) * pow(1+D, n-i) << endl;
+    cout << "Enter n: "; cin >> n;
+    cout << "Enter i: "; cin >> i;
+    cout << "S(n,i) = " << S(S0, U, D, n, i) << endl;
 
     return 0;
 }
